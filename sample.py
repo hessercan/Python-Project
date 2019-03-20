@@ -1,4 +1,6 @@
-# sample comment in code
+# Sample comment in code
+# Adds some space
+print()
 
 # If Else Statements
 condition1 = False
@@ -13,7 +15,7 @@ elif condition2:
 else:
     print("Both Conditions are False!")
 
-# Add some spacing
+# Adds some space
 print()
 
 # While Loops
@@ -42,7 +44,7 @@ for i in range(start, end):
     else:
         print(str(i) + " is not with the Quads")
 
-# Add some spacing
+# Adds some space
 print()
 
 # Quit the program
