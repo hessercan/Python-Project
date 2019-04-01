@@ -1,6 +1,5 @@
 # Sample Functions in Python
 
-
 def main(j, k):
     for i in range(j,k):
         # Odd A
