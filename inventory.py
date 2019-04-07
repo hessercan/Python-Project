@@ -1,5 +1,6 @@
 import os
 
+# Main Database Initialization
 database = {
     "0001": ["Wireless Mouse", 3],
     "0002": ["Wireless Keyboard", 3],
@@ -13,13 +14,17 @@ database = {
     "0010": ["16GB Thumb Drive", 4],
 }
 
+# Final Strings
 appHeader = "Inventory Management"
 inventoryHeader = "Part Number:  ~ In-Stock:    ~  Description:"
 
+# Clears the Terminal to help keep things clean.
 def clear():
     os.system('cls' if os.name=='nt' else 'clear')
     print(appHeader)
 
+# Main Menu Selection
+# Returns the users choice.
 def mainmenu():
     clear()
     isValid = False
@@ -35,6 +40,7 @@ def mainmenu():
 
     return choice
 
+# Prints the Main Menu to the User.
 def printMenu():
     print("P:  Print all inventory")
     print("A:  Add a new part")
@@ -42,20 +48,27 @@ def printMenu():
     print("R:  List parts that are low on inventory")
     print("Q:  Exit/Quit")
 
+# Prints the Add Remove Inventory Menu.
 def printARMenu():
     print("A: Add Inventory")
     print("R: Remove Inventory")
     print("Q: Go Back")
 
+# Prints All Inventory in Alphanumeric order.
 def printInventory():
     global database
     clear()
     print(inventoryHeader)
 
+    # Sorts the Dictionary in Alphanumeric order.
     for key in sorted(database.keys()):
         print(partInfo(key))
     wait()
 
+# Adds New Part to the Database
+# *Prompts the User for Part Infomation
+# *Verifies that the Part doesn't already Exists
+# *Verifies that the user is entering numbers only when required.
 def addPart():
     global database
     clear()
@@ -81,13 +94,19 @@ def addPart():
 
     # Add new part to database
     database[key] = [str(desc),int(inv)]
+    # Prints new part to the user.
     print(inventoryHeader)
     print(partInfo(key))
     wait()
 
+# Lookup by Part Number
+# Prompts the User to Enter the Part Number
+# Requries a Number to be entered
 def lookupPart():
     global database
     clear()
+
+    # Add Remove Inventory Menu
     menu = {
         "a": addInventory,
         "r": removeInventory,
@@ -108,6 +127,8 @@ def lookupPart():
             print(partInfo(key))
             menu[inventoryMenu()](key)
 
+# Add Remove Inventory Menu
+# Returns the Users Choice if Valid
 def inventoryMenu():
     isValid = False
     while not isValid:
@@ -122,6 +143,8 @@ def inventoryMenu():
 
     return choice
 
+# Requires a part number (key)
+# Adds inventory to the part provided
 def addInventory(part):
     global database
     isValid = False
@@ -133,6 +156,8 @@ def addInventory(part):
             print("That is not a number...")
     database[part][1] += int(number)
 
+# Requires a part number (key)
+# Removes inventory to the part provided
 def removeInventory(part):
     global database
     isValid = False
@@ -144,9 +169,12 @@ def removeInventory(part):
             print("That is not a number...")
     database[part][1] -= int(number)
 
+# Does Absolutly Nothing...
+# Required to exit Add Remove Menu
 def quitInventory(part):
     return "q"
 
+# Prints All Parts with Inventory Lower than four (4)
 def lowInventory():
     clear()
     print("Parts that are Low on Inventory:")
@@ -156,20 +184,26 @@ def lowInventory():
             print(partInfo(key))
     wait()
 
+# Requires Part Number (key)
+# Builds String from the key provided
 def partInfo(part):
     string = part
     string = string + "\t\t" + str(database[part][1])
     string = string + "\t\t" + str(database[part][0])
     return string
 
+# Allows program to wait for user input before continuing
 def wait():
     input("Press Enter to Continue: ")
 
+# Overrides Quit Method
+# Clears the Terminal and Prints a Farewell message before Exiting
 def quit():
     clear()
     print("Thanks for Playing! Goodbye...")
     exit()
 
+# Main Menu Dictionary
 menu = {
     "p": printInventory,
     "a": addPart,
@@ -178,5 +212,7 @@ menu = {
     "q": quit
 }
 
+# Program Loop
+# Runs until Quit Method is run
 while True:
     menu[mainmenu()]()
