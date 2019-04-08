@@ -1,0 +1,26 @@
+[
+  {
+    "year" : "2018",
+    "month":"April",
+    "day" : "13",
+    "time" : "13:00",
+    "location" : "South Hills",
+    "description" : "Python Programming Class"
+  },
+  {
+    "year" : "2018",
+    "month" : "April",
+    "day" : "13",
+    "time" : "18:00",
+    "location" : "Champs",
+    "description" : "Happy Hour"
+  },
+  {
+    "year" : "2018",
+    "month" : "April",
+    "day" : "14",
+    "time" : "09:00",
+    "location" : "YMCA",
+    "description" : "Basketball Game"
+  },
+]
