@@ -1,0 +1,50 @@
+[
+    {
+        "name" : "Jim Smith",
+        "born" : "1800",
+        "children" : [
+            {
+                "name" : "Mike Smith",
+                "born" : "1830"
+            },
+            {
+                "name" : "Emily Smith",
+                "born" : "1834",
+                "children" : [
+                    {
+                        "name" : "John Wagner",
+                        "born" : "1860"
+                    },
+                    {
+                        "name" : "Jeb Wagner",
+                        "born" : "1863",
+                        "children" : [
+                            {
+                                "name" : "George Wagner",
+                                "born" : "1900"
+                            },
+                            {
+                                "name" : "Mary Wagner",
+                                "born" : "1904"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name" : "Terry Bradshaw",
+        "born" : 1948,
+        "children" : [
+            {
+                "name" : "Rachel Bradshaw",
+                "born" : "1980"
+            },
+            {
+                "name" : "Erin Bradshaw",
+                "born" : "1982"
+            }
+        ]
+    }
+]
