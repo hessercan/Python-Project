@@ -14,9 +14,7 @@ database = {
     "0010": ["16GB Thumb Drive", 4],
 }
 
-# Final Strings
-appHeader = "Inventory Management"
-inventoryHeader = "Part Number:  ~ In-Stock:    ~  Description:"
+
 
 # Clears the Terminal to help keep things clean.
 def clear():
