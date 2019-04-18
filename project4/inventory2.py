@@ -8,8 +8,13 @@ INVENTORYHEADER = "Part Number:  ~ In-Stock:    ~  Description:"
 PROMPT = "Enter choice from menu above: "
 DBFILE = "inventory2.db"
 
+# Global database connection used to process SQLite queries.
 dbconn = None
 
+# Creates a connection to the inventory2 database
+# Checks to see if the parts table exists and if not initializes it
+# Enters the main program
+# Closes the database connection when finished.
 def create_connection(db_file):
     global dbconn
     # create a database connection to a SQLite database
@@ -309,6 +314,7 @@ def clear():
 def quit():
     clear()
     print("Thanks for Playing! Goodbye...")
+    dbconn.close()
     exit()
 
 # Allows program to wait for user input before continuing.
