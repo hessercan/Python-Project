@@ -20,7 +20,7 @@ for f in fileList:
     if os.path.isfile(f):
         print(f)
 
-
+# Problem 2
 def searchFiles(dirPath,pattern):
     dirList = os.listdir(dirPath)
     for name in dirList:
