@@ -20,6 +20,7 @@ def countByTwo(number):
             count += 2
 
 # Problem 2
+names = []
 def fillNames():
     print()
     global names
@@ -77,7 +78,7 @@ def addVehicle(vin, make, model, year):
         c.close()
         dbconn.close()
 
-names = []
+
 
 countByTwo(10)
 fillNames()
