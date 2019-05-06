@@ -10,7 +10,6 @@ homeDir = os.path.expanduser('~')
 subDir = "python"
 #print(homeDir)
 
-
 path = os.path.join(homeDir,subDir)
 print(path)
 
