@@ -1,0 +1,24 @@
+[
+    {
+        "name" : "Cocoa",
+        "breed" : "Schnauzer"
+    },
+    {
+        "name" : "Marley",
+        "breed" : "Yellow Lab",
+        "humans" : [
+            "Mary",
+            "Jim",
+            "Tommy",
+            "Emily"
+        ]
+    },
+    {
+        "name" : "Bruiser",
+        "breed" : "Terrier",
+        "humans" : [
+            "Tina",
+            "Mike"
+        ]
+    }
+]
