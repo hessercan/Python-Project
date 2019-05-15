@@ -34,11 +34,15 @@ count = 1
 
 def main():
     while True:
+        choice = input("Continue Entering Cars? (Y/N): ").upper()
+        if choice == "N":
+            break
+        if choice != "Y":
+            print("Try Again")
+            continue
+
         createCar()
-        print("\nAll Cars")
-        for i,car in cars.items():
-            print("Car %d: " % (i))
-            printCar(car)
+        printCars()
 
 
 def createCar():
@@ -53,10 +57,11 @@ def createCar():
     count += 1
 
 
-def printCar(car):
-    print("Make: {}".format(car.getMake()))
-    print("Model: {}".format(car.getModel()))
-    print("Year: {}".format(car.getYear()))
+def printCars():
+    print("\nAll Cars")
+    for i,car in cars.items():
+        print("Car %d: " % (i), end="")
+        print("{} {} {}".format(car.getYear(), car.getMake(), car.getModel()))
     print()
 
 main()
