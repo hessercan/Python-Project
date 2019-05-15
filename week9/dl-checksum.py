@@ -4,7 +4,7 @@ import os
 
 FILEURL = "http://downloads.ascentops.com/southhills/file.bin"
 FILENAME = os.path.split(FILEURL)[1]
-print(FILENAME)
+
 
 try:
     with urllib.request.urlopen(FILEURL) as urlf:
@@ -13,6 +13,7 @@ try:
             dl.write(data)
             checksum = hashlib.md5()
             checksum.update(data)
-            print(checksum.hexdigest())
-except Exception as e:
+            print("File Downloaded to {}".format(FILENAME))
+            print("MD5: {}".format(checksum.hexdigest()))
+except urllib.error.URLError:
     print("Failed Download")

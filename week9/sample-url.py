@@ -12,7 +12,3 @@ with urllib.request.urlopen(PDFURL) as f:
     data = f.read()
     with open ("download.pdf", "wb") as dl:
         dl.write(data)
-        checksum = hashlib.md5()
-        data = dl.read()
-        checksum.update(data)
-        print(checksum.hexdigest())
