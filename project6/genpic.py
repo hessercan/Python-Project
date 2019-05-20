@@ -41,6 +41,8 @@ def main():
 
     createLog(logFile)
     initLog(logFile, runTests())
+    print("Check Log File for more details.")
+    print("Log saved to: {}".format(logFile))
     print("Thanks for Playing... ;)")
 
 # Clones a git repository to the same directory __file__ is in
