@@ -95,8 +95,8 @@ def getVersion(path):
         return version[0]
 
 # Main Function for running tests
-# Returns Pass and Fails in a Dictionary
-# pf = { 'pass': result, 'fail': result, }
+# takes the key, case, and results dictionary
+# Returns results
 def runTest(key, case, results):
         command = "python3 {} {}".format(gitScript,case)
         print("Testing Case #{}: ".format(key), end='')
