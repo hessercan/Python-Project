@@ -195,6 +195,7 @@ def checkFiles(testResults):
         if value['path'] != 0:
             compareChecksum(value['path'], compareURLs[key])
 
+# Requires a file stream, returns the checksum
 def getChecksum(f):
     checksum = hashlib.md5()
     data = f.read()
