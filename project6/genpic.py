@@ -195,15 +195,18 @@ def checkFiles(testResults):
         if value['path'] != 0:
             compareChecksum(value['path'], compareURLs[key])
 
+def getChecksum(f):
+    checksum = hashlib.md5()
+    data = f.read()
+    checksum.update(data)
+    return checksum.hexdigest()
+
 # Checks the checksum of the file with the url to compare
 # Returns 0 if pass, 1 if fail
 def compareChecksum(file, url):
-    fileChecksum = hashlib.md5()
-    urlChecksum = hashlib.md5()
     try:
         with urllib.request.urlopen(url) as furl:
-            urldata = furl.read()
-            urlChecksum.update(urldata)
+            urlChecksum = getChecksum(furl)
     except urllib.error.URLError:
         print("Failed Download")
     except Exception as e:
@@ -211,13 +214,12 @@ def compareChecksum(file, url):
 
     try:
         with open(file, 'rb') as f:
-            filedata = f.read()
-            fileChecksum.update(filedata)
+            fileChecksum = getChecksum(f)
     except Exception as e:
         print(e)
 
     print("Verifying File {}: ".format(os.path.split(file)[1]), end='')
-    if urlChecksum.hexdigest() == fileChecksum.hexdigest():
+    if urlChecksum == fileChecksum:
         print("PASS")
         return 0 #Pass
     else:
