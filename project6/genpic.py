@@ -29,6 +29,7 @@ compareURLs = {
     6: "0",
     7: "0",
 }
+expectOutputCodes = [0,0,0,0,0,2,2]
 
 # Main Program
 # Clones or Fetches the required git repository
@@ -103,7 +104,7 @@ def runTests():
             opath = output.strip("Success:  picture saved at ")
             opath = opath.rstrip("\n\r")
             # print(output)
-            testResults[key] = result(0, command, output, opath)
+            testResults[key] = result(key, 0, command, output, opath)
             print("PASS")
             pf['pass'] += 1
 
@@ -113,7 +114,7 @@ def runTests():
             opath = 0
             # print("command returned with return code {}".format(e.returncode))
             # print(e.output.decode('utf-8'))
-            testResults[key] = result(code, command, output, opath)
+            testResults[key] = result(key, code, command, output, opath)
             print("FAIL")
             pf['fail'] += 1
 
@@ -123,7 +124,7 @@ def runTests():
     return pf
 
 # Takes in the data from the test and returns a Dictionary of results
-def result(code, command, output, opath):
+def result(key, code, command, output, opath):
     if code == 0:
         result = "PASS"
     elif code > 0:
@@ -133,7 +134,7 @@ def result(code, command, output, opath):
         'result': result,
         'command': command,
         'status': code,
-        'expected': 0,
+        'expected': expectOutputCodes[key-1],
         'output': output.splitlines(),
         'path': opath
     }
@@ -149,7 +150,7 @@ def logResults(testResults):
         results.append("    Result = {}\n".format(result['result']))
         results.append("    Running command: {}\n".format(result['command']))
         results.append("    Command status code = {}\n".format(result['status']))
-        results.append("    Expected status code = 0\n")
+        results.append("    Expected status code = {}\n".format(result['expected']))
         results.append("    Command output: \n")
         for o in result['output']:
             results.append("         {}\n".format(o))
