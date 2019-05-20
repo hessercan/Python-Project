@@ -1,9 +1,9 @@
 ===============================  TEST RESULTS  ===============================
-Date/Time: 2019-5-20 14:33
+Date/Time: 2019-5-20 16:37
 Code Version: 1.2.3-beta.1
 Number of Tests Run:  7
-PASS = 4
-FAIL = 3
+PASS = 5
+FAIL = 2
 +++++++++++++  Log ++++++++++++++
 
 Test Case #1
@@ -11,15 +11,15 @@ Test Case #1
     Running command: python3 /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/gen-picture dog
     Command status code = 0
     Expected status code = 0
-    Command output: 
+    Command output:
          Success:  picture saved at /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/00000.jpg
 
 Test Case #2
-    Result = PASS
+    Result = FAIL
     Running command: python3 /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/gen-picture ducks
     Command status code = 0
     Expected status code = 0
-    Command output: 
+    Command output:
          Success:  picture saved at /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/00001.jpg
 
 Test Case #3
@@ -27,7 +27,7 @@ Test Case #3
     Running command: python3 /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/gen-picture flower
     Command status code = 0
     Expected status code = 0
-    Command output: 
+    Command output:
          Success:  picture saved at /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/00002.jpg
 
 Test Case #4
@@ -35,7 +35,7 @@ Test Case #4
     Running command: python3 /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/gen-picture moon
     Command status code = 1
     Expected status code = 0
-    Command output: 
+    Command output:
          Failed to locate picture data
          There was an error generating the picture
 
@@ -44,22 +44,21 @@ Test Case #5
     Running command: python3 /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/gen-picture mountain
     Command status code = 0
     Expected status code = 0
-    Command output: 
+    Command output:
          Success:  picture saved at /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/00004.jpg
 
 Test Case #6
-    Result = FAIL
-    Running command: python3 /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/gen-picture 
+    Result = PASS
+    Running command: python3 /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/gen-picture
     Command status code = 2
     Expected status code = 2
-    Command output: 
-         Invalid picture choice:  
+    Command output:
+         Invalid picture choice:
 
 Test Case #7
-    Result = FAIL
+    Result = PASS
     Running command: python3 /Users/mark/HesserCAN-mhesser01/6th Term/Python and Perl/Python/project6/sh-genpic/gen-picture sun
     Command status code = 2
     Expected status code = 2
-    Command output: 
+    Command output:
          Invalid picture choice:  sun
-

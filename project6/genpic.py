@@ -20,6 +20,7 @@ logFile = os.path.join(scriptPath,"results.txt")
 gitPath = os.path.join(scriptPath,"sh-genpic")
 gitScript = os.path.join(gitPath, "gen-picture")
 testCases =  {1:"dog",2:"ducks",3:"flower",4:"moon",5:"mountain",6:"",7:"sun", }
+expectOutputCodes = {1:0,2:0,3:0,4:0,5:0,6:2,7:2}
 compareURLs = {
     1: "http://downloads.ascentops.com/southhills/pictures/dog.jpg",
     2: "http://downloads.ascentops.com/southhills/pictures/ducks.jpg",
@@ -29,7 +30,7 @@ compareURLs = {
     6: "0",
     7: "0",
 }
-expectOutputCodes = [0,0,0,0,0,2,2]
+
 
 # Main Program
 # Clones or Fetches the required git repository
@@ -41,7 +42,12 @@ def main():
         gitClone(genpicURL)
 
     createLog(logFile)
-    initLog(logFile, runTests())
+    testResults = {}
+    for key,case in testCases.items():
+        runTest(key, case, testResults)
+    logResults(testResults)
+    initLog(logFile, testResults)
+
     print("Check Log File for more details.")
     print("Log saved to: {}".format(logFile))
     print("Thanks for Playing... ;)")
@@ -56,6 +62,8 @@ def gitClone(url):
     except subprocess.CalledProcessError as e:
         print("return code {}".format(e.returncode))
         print(e.output.decode('utf-8'))
+        if e.returncode == 128:
+            quit()
 
 # Fetches a git repository to the same directory __file__ is in
 # Requires a url to be passed in
@@ -68,6 +76,8 @@ def gitFetch(url):
     except subprocess.CalledProcessError as e:
         print("return code {}".format(e.returncode))
         print(e.output.decode('utf-8'))
+        if e.returncode == 128:
+            quit()
 
 # Gets a formatted version of the current Date and Time for the logFile
 # Returns as a String
@@ -87,15 +97,7 @@ def getVersion(path):
 # Main Function for running tests
 # Returns Pass and Fails in a Dictionary
 # pf = { 'pass': result, 'fail': result, }
-def runTests():
-    # Keeps Track of Pass and Fails
-    pf = {
-        'pass': 0,
-        'fail': 0,
-    }
-
-    testResults = {}
-    for key,case in testCases.items():
+def runTest(key, case, results):
         command = "python3 {} {}".format(gitScript,case)
         print("Testing Case #{}: ".format(key), end='')
         try:
@@ -104,9 +106,11 @@ def runTests():
             opath = output.strip("Success:  picture saved at ")
             opath = opath.rstrip("\n\r")
             # print(output)
-            testResults[key] = result(key, 0, command, output, opath)
-            print("PASS")
-            pf['pass'] += 1
+            checksumCode = compareChecksum(opath, compareURLs[key])
+            if checksumCode == 0:
+                results[key] = result(key, 0, 0, command, output, opath)
+            elif checksumCode > 0:
+                results[key] = result(key, 0, 1, command, output, opath)
 
         except subprocess.CalledProcessError as e:
             output = e.output.decode('utf-8')
@@ -114,27 +118,32 @@ def runTests():
             opath = 0
             # print("command returned with return code {}".format(e.returncode))
             # print(e.output.decode('utf-8'))
-            testResults[key] = result(key, code, command, output, opath)
-            print("FAIL")
-            pf['fail'] += 1
+            results[key] = result(key, code, 1, command, output, opath)
 
 
-    logResults(testResults)
-    checkFiles(testResults)
-    return pf
+        return results
 
 # Takes in the data from the test and returns a Dictionary of results
-def result(key, code, command, output, opath):
-    if code == 0:
+def result(key, code, check, command, output, opath):
+    if code == 0 and check == 0:
         result = "PASS"
-    elif code > 0:
+        print("PASS")
+    elif code == 0 and check > 0:
         result = "FAIL"
+        print("FAIL")
+    else:
+        if code == expectOutputCodes[key]:
+            result = "PASS"
+            print("PASS")
+        else:
+            result = "FAIL"
+            print("FAIL")
 
     result = {
         'result': result,
         'command': command,
         'status': code,
-        'expected': expectOutputCodes[key-1],
+        'expected': expectOutputCodes[key],
         'output': output.splitlines(),
         'path': opath
     }
@@ -167,15 +176,25 @@ def createLog(file):
 # Appends the Header of the Log to the Top of the Log File
 # Requires the path to the log file, and a dictionary of pass/fail results
 # pf = { 'pass': result, 'fail': result, }
-def initLog(file, pf):
-    totalTests = pf['pass'] + pf['fail']
+def initLog(file, results):
+    # totalTests = pf['pass'] + pf['fail']
+    totalTests = len(results)
+    testPass = 0
+    testFail = 0
+
+    for key,result in results.items():
+        if result['result'] == 'PASS':
+            testPass += 1
+        elif result['result'] == 'FAIL':
+            testFail += 1
+
     logData = [
         str("===============================  TEST RESULTS  ===============================\n"),
         str("Date/Time: {}\n".format(getNowFormat())),
         str("Code Version: {}\n".format(getVersion(gitPath))),
         str("Number of Tests Run:  {}\n".format(totalTests)),
-        str("PASS = {}\n".format(pf['pass'])),
-        str("FAIL = {}\n".format(pf['fail'])),
+        str("PASS = {}\n".format(testPass)),
+        str("FAIL = {}\n".format(testFail)),
         str("+++++++++++++  Log ++++++++++++++\n\n"),
     ]
     with open (file, "r+") as f:
@@ -187,13 +206,6 @@ def initLog(file, pf):
 def appendLog(data, file):
     with open (file, "a") as f:
         f.write(data)
-
-# Gathers the file paths and urls to check based on a pass result
-def checkFiles(testResults):
-    for key,value in testResults.items():
-        # print(value)
-        if value['path'] != 0:
-            compareChecksum(value['path'], compareURLs[key])
 
 # Requires a file stream, returns the checksum
 def getChecksum(f):
@@ -221,10 +233,8 @@ def compareChecksum(file, url):
 
     print("Verifying File {}: ".format(os.path.split(file)[1]), end='')
     if urlChecksum == fileChecksum:
-        print("PASS")
         return 0 #Pass
     else:
-        print("FAIL")
         return 1 #Fail
 
 # Only runs main() if run script from command line
