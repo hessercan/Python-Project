@@ -45,27 +45,52 @@ def main():
 # - sample_size: int (number of questions to collect tags from)
 # - topic_limit: int (number of topics to display jobs for)
 def loadConfig():
-    cfile = 'config.json'
-    DEFAULT_CONFIG = {
-        "location" : "State College, PA",
-        "job_limit" : 10,
-        "sample_size" : 100,
-        "topic_limit" : 5
-    }
-
+    file = 'config.json'
+    path = os.path.dirname(os.path.realpath(__file__))
+    cfile = os.path.join(path,file)
     if os.path.exists(cfile):
-        with open(cfile, 'r') as c:
-            config = json.load(c)
+        try:
+            with open(cfile, 'r') as c:
+                config = json.load(c)
+        except Exception as e:
+            print("Error: {}".format(e))
+            writeDefaultConfig(cfile, 2)
     else:
-        with open(cfile, 'w') as o:
-            cfpath = os.path.abspath(cfile)
-            config = DEFAULT_CONFIG
-            json.dump(config, o)
-            print("ALERT: 'config.json' not Found, Default Settings have been applied.")
-            print("Please edit the config file found at: \n{}".format(cfpath))
-            exit()
+        writeDefaultConfig(cfile, 1)
 
-    return config
+    if all (k in config for k in ("location", "job_limit", "sample_size", "topic_limit")):
+        return config
+    else:
+        writeDefaultConfig(cfile, 2)
+
+# Deletes Config File and Writes the Default Config
+# code: int (1: File not Found, 2: File Corrupt)
+def writeDefaultConfig(cfile, code):
+    DEFAULT_CONFIG = [
+        "{",
+        "\t\"location\" : \"State College, PA\",",
+        "\t\"job_limit\" : 10,",
+        "\t\"sample_size\" : 100,",
+        "\t\"topic_limit\" : 5",
+        "}"
+    ]
+
+    if code == 1:
+        alert = "File Not Found"
+    elif code == 2:
+        os.remove(cfile)
+        alert = "File is Corrupt"
+    else:
+        alert = "Unknown Error"
+
+    with open(cfile, 'w') as o:
+        cfpath = os.path.abspath(cfile)
+        for item in DEFAULT_CONFIG:
+            o.write("%s\n" % item)
+        print("ALERT: 'config.json' {}, Default Settings have been applied.".format(alert))
+        print("Please edit the config file found at: \n{}".format(cfpath))
+        exit()
+
 
 # Stack Overflow
 # Determines from sample_size how many pages

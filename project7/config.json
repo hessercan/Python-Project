@@ -1,1 +1,6 @@
-{"location": "New York, NY", "job_limit": 10, "sample_size": 100, "topic_limit": 5}
+{
+	"location" : "State College, PA",
+	"job_limit" : 10,
+	"sample_size" : 100,
+	"topic_limit" : 5
+}
