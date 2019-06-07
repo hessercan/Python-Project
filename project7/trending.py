@@ -69,8 +69,13 @@ def loadConfig():
 
 # Stack Overflow
 # Determines from sample_size how many pages
+# Parameters:
+# - sample_size: int (number of questions to collect)
+# - mps: int (Max Page Size per request, used to calculate number of pages)
 def getTrending(sample_size, mps):
     print("Getting Trending Topics...")
+
+    # Algorithm that calculates the number of pages and the pagesize of the last page
     numPages = math.ceil(sample_size / mps)
     lastPage = sample_size % mps
     if lastPage == 0:
@@ -80,6 +85,7 @@ def getTrending(sample_size, mps):
 
     topics = {}
 
+    # Collecting the Data from each page
     for page in range(1, numPages + 1):
         if page < numPages:
             getTrendingRun(page, mps, topics)
