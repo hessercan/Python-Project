@@ -64,7 +64,9 @@ def loadConfig():
         writeDefaultConfig(cfile, 2)
 
 # Deletes Config File and Writes the Default Config
-# code: int (1: File not Found, 2: File Corrupt)
+# Parameters:
+# - cfile: string (abspath to Config File)
+# - code: int (1: File not Found, 2: File Corrupt)
 def writeDefaultConfig(cfile, code):
     DEFAULT_CONFIG = [
         "{",
@@ -84,11 +86,10 @@ def writeDefaultConfig(cfile, code):
         alert = "Unknown Error"
 
     with open(cfile, 'w') as o:
-        cfpath = os.path.abspath(cfile)
         for item in DEFAULT_CONFIG:
             o.write("%s\n" % item)
         print("ALERT: 'config.json' {}, Default Settings have been applied.".format(alert))
-        print("Please edit the config file found at: \n{}".format(cfpath))
+        print("Please edit the config file found at: \n{}".format(cfile))
         exit()
 
 
